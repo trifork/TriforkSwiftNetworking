@@ -6,7 +6,7 @@ final class TriforkSwiftNetworkingTests: XCTestCase {
         // This is an example of a functional test case.
         // Use XCTAssert and related functions to verify your tests produce the correct
         // results.
-        XCTAssertEqual(TriforkSwiftNetworking().text, "Hello, World!")
+        // XCTAssertEqual(TriforkSwiftNetworking().text, "Hello, World!")
     }
 
     static var allTests = [
