@@ -1,0 +1,29 @@
+trigger:
+- master
+
+jobs:
+- job: Xcode_test
+  strategy:
+    maxParallel: 10
+    matrix:
+      ios13:
+        IMAGE_NAME: 'macos-10.15'
+        XCODE_DEVELOPER_PATH: /Applications/Xcode_11.7.app
+        IOS_SIMULATORS: 'iPhone 8,OS=13.7'
+      ios14:
+        IMAGE_NAME: 'macos-10.15'
+        XCODE_DEVELOPER_PATH: /Applications/Xcode_12.app
+        IOS_SIMULATORS: 'iPhone 11,OS=14.0'
+  pool:
+    vmImage: $(IMAGE_NAME)
+  steps:
+  - script: swift package resolve
+    failOnStderr: true
+    displayName: 'swift package resolve'
+
+  - script: swift build --build-tests
+    failOnStderr: true
+    displayName: 'swift build --build-tests'
+
+  - script: swift test
+    displayName: 'swift test'
