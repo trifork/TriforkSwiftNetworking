@@ -7,6 +7,7 @@
 
 import Foundation
 
+/// Simple response that contains  the `OutputType`.
 public protocol EntityResponse: Response {
     var data: OutputType { get }
 }

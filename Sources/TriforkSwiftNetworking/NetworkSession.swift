@@ -26,12 +26,21 @@ public protocol NetworkSession {
 
 // Helper mehtods
 public extension NetworkSession {
+    /// Creates a task that retrieves the contents of a URL based on the specified URL request object.
+    ///
+    /// - Parameter request: A HTTP request object that provides request-specific information such as the URL, cache policy, request type, and body data or body stream.
+    /// - Returns: The new session data task.
     func dataTask<Request: HTTPRequest>(with request: Request) -> URLSessionDataTask {
         let urlRequest = createRequest(with: request)
 
         return dataTask(with: urlRequest)
     }
 
+    /// Returns a publisher that wraps a URL session data task for a given URL request.
+    ///
+    /// The publisher publishes data when the task completes, or terminates if the task fails with an error.
+    /// - Parameter request: The HTTP request for which to create a data task.
+    /// - Returns: A publisher that wraps a data task for the URL request.
     @available(iOS 13.0, *)
     func dataTaskPublisher<Request: HTTPRequest>(for request: Request) -> AnyPublisher<Request.ResponseType, Error> {
         let urlRequest = createRequest(with: request)

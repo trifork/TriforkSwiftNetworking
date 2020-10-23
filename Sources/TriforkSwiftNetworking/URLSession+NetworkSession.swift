@@ -7,4 +7,5 @@
 
 import Foundation
 
+/// Default implementaion
 extension URLSession: NetworkSession { }

@@ -7,6 +7,7 @@
 
 import Foundation
 
+/// Base response protocol
 public protocol Response {
     associatedtype OutputType
     init(input: Data, response: HTTPURLResponse?) throws

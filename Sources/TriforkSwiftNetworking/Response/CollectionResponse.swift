@@ -7,6 +7,7 @@
 
 import Foundation
 
+/// Simple response that contains a collection of the `OutputType`.
 public protocol CollectionResponse: Response {
     var data: [OutputType] { get }
 }
