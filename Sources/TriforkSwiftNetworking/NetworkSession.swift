@@ -20,7 +20,7 @@ public protocol NetworkSession {
     /// The publisher publishes data when the task completes, or terminates if the task fails with an error.
     /// - Parameter request: The URL request for which to create a data task.
     /// - Returns: A publisher that wraps a data task for the URL request.
-    @available(iOS 13.0, *)
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     func dataTaskPublisher(for request: URLRequest) -> URLSession.DataTaskPublisher
 }
 
@@ -41,7 +41,7 @@ public extension NetworkSession {
     /// The publisher publishes data when the task completes, or terminates if the task fails with an error.
     /// - Parameter request: The HTTP request for which to create a data task.
     /// - Returns: A publisher that wraps a data task for the URL request.
-    @available(iOS 13.0, *)
+    @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     func dataTaskPublisher<Request: HTTPRequest>(for request: Request) -> AnyPublisher<Request.ResponseType, Error> {
         let urlRequest = createRequest(with: request)
 
@@ -56,7 +56,7 @@ public extension NetworkSession {
 
 private extension NetworkSession {
     private func createRequest<Request: HTTPRequest>(with request: Request) -> URLRequest {
-        var url = URL(string: request.url)!
+        var url = request.url
 
         request.query?.forEach { key, value in
             url = url.appendingQueryComponent(key, value: value)
