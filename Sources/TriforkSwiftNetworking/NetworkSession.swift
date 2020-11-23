@@ -6,7 +6,9 @@
 //
 
 import Foundation
+#if canImport(Combine)
 import Combine
+#endif
 
 public protocol NetworkSession {
     /// Creates a task that retrieves the contents of a URL based on the specified URL request object.
@@ -15,6 +17,7 @@ public protocol NetworkSession {
     /// - Returns: The new session data task.
     func dataTask(with request: URLRequest) -> URLSessionDataTask
 
+    #if canImport(Combine)
     /// Returns a publisher that wraps a URL session data task for a given URL request.
     ///
     /// The publisher publishes data when the task completes, or terminates if the task fails with an error.
@@ -22,6 +25,7 @@ public protocol NetworkSession {
     /// - Returns: A publisher that wraps a data task for the URL request.
     @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     func dataTaskPublisher(for request: URLRequest) -> URLSession.DataTaskPublisher
+    #endif
 }
 
 // Helper mehtods
@@ -36,6 +40,7 @@ public extension NetworkSession {
         return dataTask(with: urlRequest)
     }
 
+    #if canImport(Combine)
     /// Returns a publisher that wraps a URL session data task for a given URL request.
     ///
     /// The publisher publishes data when the task completes, or terminates if the task fails with an error.
@@ -52,6 +57,7 @@ public extension NetworkSession {
         .mapError { $0 }
         .eraseToAnyPublisher()
     }
+    #endif
 }
 
 private extension NetworkSession {
