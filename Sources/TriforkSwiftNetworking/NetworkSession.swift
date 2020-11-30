@@ -77,6 +77,29 @@ private extension NetworkSession {
             urlRequest.addValue(value, forHTTPHeaderField: key)
         })
 
+        if TriforkSwiftNetworkingConfig.isDebugPrintingEnabled {
+            log(for: urlRequest)
+        }
+
         return urlRequest
+    }
+
+    private func log(for urlRequest: URLRequest) {
+        let bodyString: String
+        let noBodyDataString = "<NO BODY DATA>"
+        if let data = urlRequest.httpBody {
+            bodyString = String(data: data, encoding: .utf8) ?? noBodyDataString
+        } else {
+            bodyString = noBodyDataString
+        }
+        let logMessage =  """
+Created \(urlRequest.httpMethod ?? "<UNKNOWN>") request for:
+URL: \(urlRequest.url?.absoluteString ?? "<UNKNOWN>")
+HEADERS ⬇️:
+\(urlRequest.allHTTPHeaderFields?.description ?? "<NO HEADERS>")
+BODY ⬇️:
+\(bodyString)
+"""
+        Logger.log(logMessage)
     }
 }
