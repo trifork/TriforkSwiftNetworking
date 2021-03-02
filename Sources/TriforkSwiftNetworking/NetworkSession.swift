@@ -17,6 +17,18 @@ public protocol NetworkSession {
     /// - Returns: The new session data task.
     func dataTask(with request: URLRequest) -> URLSessionDataTask
 
+    /// Creates a task that retrieves the contents of a URL based on the specified URL request object.
+    ///
+    /// - Parameters:
+    ///   - request: A URL request object that provides request-specific information such as the URL, cache policy, request type, and body data or body stream.
+    ///   -  completionHandler: The completion handler to call when the load request is complete. This handler is executed on the delegate queue. If you pass nil, only the session delegate methods are called when the task completes, making this method equivalent to the dataTask(with:) method.
+    ///     This completion handler takes the following parameters:
+    ///      - `data`: The data returned by the server.
+    ///      - `response`: An object that provides response metadata, such as HTTP headers and status code. If you are making an HTTP or HTTPS request, the returned object is actually an ``HTTPURLResponse`` object.
+    ///      - `error`: An error object that indicates why the request failed, or nil if the request was successful.
+    /// - Returns: The new session data task.
+    func dataTask(with request: URLRequest, completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void) -> URLSessionDataTask
+
     #if canImport(Combine)
     /// Returns a publisher that wraps a URL session data task for a given URL request.
     ///
@@ -38,6 +50,22 @@ public extension NetworkSession {
         let urlRequest = createRequest(with: request)
 
         return dataTask(with: urlRequest)
+    }
+
+    /// Creates a task that retrieves the contents of a URL based on the specified URL request object.
+    ///
+    /// - Parameters:
+    ///   - request: A URL request object that provides request-specific information such as the URL, cache policy, request type, and body data or body stream.
+    ///   -  completionHandler: The completion handler to call when the load request is complete. This handler is executed on the delegate queue. If you pass nil, only the session delegate methods are called when the task completes, making this method equivalent to the dataTask(with:) method.
+    ///     This completion handler takes the following parameters:
+    ///      - `data`: The data returned by the server.
+    ///      - `response`: An object that provides response metadata, such as HTTP headers and status code. If you are making an HTTP or HTTPS request, the returned object is actually an ``HTTPURLResponse`` object.
+    ///      - `error`: An error object that indicates why the request failed, or nil if the request was successful.
+    /// - Returns: The new session data task.
+    func dataTask<Request: HTTPRequest>(with request: Request, completionHandler: @escaping (Data?, URLResponse?, Error?) -> Void) -> URLSessionDataTask {
+        let urlRequest = createRequest(with: request)
+
+        return dataTask(with: urlRequest, completionHandler: completionHandler)
     }
 
     #if canImport(Combine)
