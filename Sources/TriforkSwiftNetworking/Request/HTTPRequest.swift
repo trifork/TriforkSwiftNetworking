@@ -27,6 +27,9 @@ public protocol HTTPRequest {
 
     /// Adds values to the header fields.
     var headers: [String: String]? { get }
+
+    /// The cache policy for the request. Defaults to `.useProtocolCachePolicy`
+    var cachePolicy: URLRequest.CachePolicy { get }
 }
 
 public extension HTTPRequest {
@@ -35,6 +38,7 @@ public extension HTTPRequest {
     var body: Data? { nil }
     var headers: [String: String]? { nil }
     var pathComponents: [String] { [] }
+    var cachePolicy: URLRequest.CachePolicy { .useProtocolCachePolicy }
 }
 
 extension HTTPRequest {

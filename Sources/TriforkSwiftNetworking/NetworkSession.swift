@@ -96,7 +96,7 @@ private extension NetworkSession {
             url = url.appendingQueryComponent(key, value: value)
         }
 
-        var urlRequest = URLRequest(url: url)
+        var urlRequest = URLRequest(url: url, cachePolicy: request.cachePolicy)
 
         urlRequest.httpMethod = request.method.rawValue.uppercased()
         urlRequest.httpBody = request.body
