@@ -88,7 +88,10 @@ Then we just handle it like a normal things with the Combine framework.
 
 The package contains a `TSNMockHelpers` framework, which allows you to mock the `URLSession` when unit testing.
 
-```
+```swift
+import TriforkSwiftNetworking
+import TSNMockHelpers
+
 let baseUrl = "mock://trifork.com"
 let request = TestRequest(
     baseUrl: baseUrl,
