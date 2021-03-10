@@ -5,7 +5,7 @@ final class RequestBuilderTests: XCTestCase {
     let baseUrl = "http://example.com"
 
     func testRequestBuilderWithQueryAndNoPathComponent() {
-        let request = TestRequst(baseUrl: baseUrl,
+        let request = TestRequest(baseUrl: baseUrl,
                                  pathComponents: [],
                                  method: .get,
                                  query: ["bar": "baz"],
@@ -15,7 +15,7 @@ final class RequestBuilderTests: XCTestCase {
     }
 
     func testRequestBuilderWithQueryAndPathComponent() {
-        let request = TestRequst(baseUrl: baseUrl,
+        let request = TestRequest(baseUrl: baseUrl,
                                  pathComponents: ["foo"],
                                  method: .get,
                                  query: ["bar": "baz"],
@@ -28,7 +28,7 @@ final class RequestBuilderTests: XCTestCase {
         let jsonEncoder = JSONEncoder()
         let data = try jsonEncoder.encode(UUID().uuidString)
 
-        let request = TestRequst(baseUrl: baseUrl,
+        let request = TestRequest(baseUrl: baseUrl,
                                  pathComponents: ["foo"],
                                  method: .post,
                                  query: ["bar": "baz"],
@@ -42,7 +42,7 @@ final class RequestBuilderTests: XCTestCase {
         let jsonEncoder = JSONEncoder()
         let data = try jsonEncoder.encode(UUID().uuidString)
 
-        let request = TestRequst(baseUrl: baseUrl,
+        let request = TestRequest(baseUrl: baseUrl,
                                  pathComponents: ["foo"],
                                  method: .post,
                                  query: ["bar": "baz"],
@@ -53,7 +53,7 @@ final class RequestBuilderTests: XCTestCase {
         verifyRequest(request)
     }
 
-    func verifyRequest(_ request: TestRequst) {
+    func verifyRequest(_ request: TestRequest) {
         var requests = [URLRequest]()
         let mockSession = MockNetworkSession()
 
