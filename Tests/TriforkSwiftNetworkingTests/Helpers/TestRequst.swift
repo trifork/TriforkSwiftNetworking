@@ -10,6 +10,7 @@ struct TestRequst: HTTPRequest {
     var query: [String: String]?
     var body: Data?
     var headers: [String: String]?
+    var cachePolicy: URLRequest.CachePolicy
 }
 
 struct TestResonse: Response {

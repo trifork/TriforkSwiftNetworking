@@ -5,13 +5,21 @@ final class RequestBuilderTests: XCTestCase {
     let baseUrl = "http://example.com"
 
     func testRequestBuilderWithQueryAndNoPathComponent() {
-        let request = TestRequst(baseUrl: baseUrl, pathComponents: [], method: .get, query: ["bar": "baz"])
+        let request = TestRequst(baseUrl: baseUrl,
+                                 pathComponents: [],
+                                 method: .get,
+                                 query: ["bar": "baz"],
+                                 cachePolicy: .useProtocolCachePolicy)
 
         verifyRequest(request)
     }
 
     func testRequestBuilderWithQueryAndPathComponent() {
-        let request = TestRequst(baseUrl: baseUrl, pathComponents: ["foo"], method: .get, query: ["bar": "baz"])
+        let request = TestRequst(baseUrl: baseUrl,
+                                 pathComponents: ["foo"],
+                                 method: .get,
+                                 query: ["bar": "baz"],
+                                 cachePolicy: .reloadRevalidatingCacheData)
 
         verifyRequest(request)
     }
@@ -24,7 +32,8 @@ final class RequestBuilderTests: XCTestCase {
                                  pathComponents: ["foo"],
                                  method: .post,
                                  query: ["bar": "baz"],
-                                 body: data)
+                                 body: data,
+                                 cachePolicy: .reloadIgnoringCacheData)
 
         verifyRequest(request)
     }
@@ -38,7 +47,8 @@ final class RequestBuilderTests: XCTestCase {
                                  method: .post,
                                  query: ["bar": "baz"],
                                  body: data,
-                                 headers: ["foo": "test"])
+                                 headers: ["foo": "test"],
+                                 cachePolicy: .returnCacheDataElseLoad)
 
         verifyRequest(request)
     }
@@ -67,6 +77,7 @@ final class RequestBuilderTests: XCTestCase {
             XCTAssertEqual(request.method.rawValue.uppercased(), urlRequest.httpMethod)
             XCTAssertEqual(request.body, urlRequest.httpBody)
             XCTAssertEqual(request.headers ?? [:], urlRequest.allHTTPHeaderFields)
+            XCTAssertEqual(request.cachePolicy, urlRequest.cachePolicy)
         }
     }
 }
