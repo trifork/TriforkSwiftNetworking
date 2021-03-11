@@ -2,15 +2,16 @@ import Foundation
 import XCTest
 @testable import TSNMockHelpers
 
-final class HttpRequestTests: XCTestCase {
-    let baseUrl = "http://example.com"
+final class URLSessionMockTests: XCTestCase {
     let mockSession: URLSession = .mockSession
 
     func testDataResponse() {
-        URLProtocolMock.reset()
+        URLSessionStubResults.reset()
         let url = URL(string: "mock://test.com/data")
-        URLProtocolMock.data[url] = "MyData".data(using: .utf8)
-        URLProtocolMock.responses[url] = URLResponseMocks.response(url: url!)
+        URLSessionStubResults.resultsForUrls[url] = .dataResponse(
+            data: "MyData".data(using: .utf8)!,
+            response: URLSessionStubResponses.response(url: url!)!
+        )
 
         let expect = XCTestExpectation()
         mockSession.dataTask(with: url!) { (data, response, error) in
@@ -23,10 +24,12 @@ final class HttpRequestTests: XCTestCase {
     }
 
     func testError() {
-        URLProtocolMock.reset()
+        URLSessionStubResults.reset()
         let url = URL(string: "mock://test.com/error")
 
-        URLProtocolMock.errors[url] = NSError(domain: "TestDomain", code: 1337, userInfo: nil)
+        URLSessionStubResults.resultsForUrls[url] = .error(
+            error: NSError(domain: "TestDomain", code: 1337, userInfo: nil)
+        )
 
         let expect = XCTestExpectation()
         mockSession.dataTask(with: url!) { (data, response, error) in

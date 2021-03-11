@@ -92,7 +92,8 @@ The package contains a `TSNMockHelpers` framework, which allows you to mock the 
 import TriforkSwiftNetworking
 import TSNMockHelpers
 
-let baseUrl = "mock://trifork.com"
+let baseUrl = "http://example.com"
+
 let request = TestRequest(
     baseUrl: baseUrl,
     pathComponents: ["test", "mock"],
@@ -104,8 +105,10 @@ let request = TestRequest(
 )
 
 let url = URL(string: "\(baseUrl)/test/mock")
-URLProtocolMock.data[url] = "MyData".data(using: .utf8)
-URLProtocolMock.responses[url] = URLResponseMocks.response(url: url!)
+URLSessionStubResults.resultsForUrls[url] = .dataResponse(
+    data: "MyData".data(using: .utf8)!,
+    response: URLSessionStubResponses.response(url: url!)!
+)
 
 let expect = XCTestExpectation()
 session.dataTask(with: request) { (data, response, error) in

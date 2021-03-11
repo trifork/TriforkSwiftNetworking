@@ -20,8 +20,10 @@ final class NetworkSessionTests: XCTestCase {
         )
 
         let url = URL(string: "\(baseUrl)/test/mock")
-        URLProtocolMock.data[url] = "MyData".data(using: .utf8)
-        URLProtocolMock.responses[url] = URLResponseMocks.response(url: url!)
+        URLSessionStubResults.resultsForUrls[url] = .dataResponse(
+            data: "MyData".data(using: .utf8)!,
+            response: URLSessionStubResponses.response(url: url!)!
+        )
 
         let expect = XCTestExpectation()
         session.dataTask(with: request) { (data, response, error) in
