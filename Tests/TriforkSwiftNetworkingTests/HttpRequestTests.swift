@@ -5,7 +5,7 @@ final class HttpRequestTests: XCTestCase {
     let baseUrl = "http://example.com"
 
     func testUrlExtensionWithNoPathComponents() {
-        let request = TestRequst(baseUrl: baseUrl,
+        let request = TestRequest(baseUrl: baseUrl,
                                  pathComponents: [],
                                  method: .get,
                                  cachePolicy: .reloadIgnoringCacheData)
@@ -15,7 +15,7 @@ final class HttpRequestTests: XCTestCase {
     }
 
     func testUrlExtensionWithPathComponents() {
-        let request = TestRequst(baseUrl: baseUrl,
+        let request = TestRequest(baseUrl: baseUrl,
                                  pathComponents: ["foo", "bar"],
                                  method: .post,
                                  cachePolicy: .reloadIgnoringLocalAndRemoteCacheData)
@@ -25,7 +25,7 @@ final class HttpRequestTests: XCTestCase {
     }
 
     func testUrlExtensionWithPathComponentsAndSlashAfterBaseUrl() {
-        let request = TestRequst(baseUrl: baseUrl + "/",
+        let request = TestRequest(baseUrl: baseUrl + "/",
                                  pathComponents: ["foo", "bar"],
                                  method: .put,
                                  cachePolicy: .reloadRevalidatingCacheData)

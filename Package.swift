@@ -9,7 +9,12 @@ let package = Package(
         // Products define the executables and libraries a package produces, and make them visible to other packages.
         .library(
             name: "TriforkSwiftNetworking",
-            targets: ["TriforkSwiftNetworking"]),
+            targets: ["TriforkSwiftNetworking"]
+        ),
+        .library(
+            name: "TSNMockHelpers",
+            targets: ["TSNMockHelpers"]
+        ),
     ],
     dependencies: [
         // Dependencies declare other packages that this package depends on.
@@ -20,9 +25,21 @@ let package = Package(
         // Targets can depend on other targets in this package, and on products in packages this package depends on.
         .target(
             name: "TriforkSwiftNetworking",
-            dependencies: []),
+            dependencies: [],
+            path: "Sources/TriforkSwiftNetworking"
+        ),
+        .target(
+            name: "TSNMockHelpers",
+            dependencies: [],
+            path: "Sources/TSNMockHelpers"
+        ),
         .testTarget(
             name: "TriforkSwiftNetworkingTests",
-            dependencies: ["TriforkSwiftNetworking"]),
+            dependencies: ["TriforkSwiftNetworking", "TSNMockHelpers"]
+        ),
+        .testTarget(
+            name: "TSNMockHelpersTests",
+            dependencies: ["TSNMockHelpers"]
+        )
     ]
 )

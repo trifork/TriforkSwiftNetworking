@@ -82,3 +82,40 @@ final class PostsController: UIViewController {
 
 In `viewDidLoad` we start with creating the request and then we fetch it with the `NetworkSession`.  
 Then we just handle it like a normal things with the Combine framework.
+
+
+# TSNMockHelpers
+
+The package contains a `TSNMockHelpers` framework, which allows you to mock the `URLSession` when unit testing.
+
+```swift
+import TriforkSwiftNetworking
+import TSNMockHelpers
+
+let baseUrl = "http://example.com"
+
+let request = TestRequest(
+    baseUrl: baseUrl,
+    pathComponents: ["test", "mock"],
+    method: .get,
+    query: nil,
+    body: nil,
+    headers: nil,
+    cachePolicy: .useProtocolCachePolicy
+)
+
+let url = URL(string: "\(baseUrl)/test/mock")
+URLSessionStubResults.resultsForUrls[url] = .dataResponse(
+    data: "MyData".data(using: .utf8)!,
+    response: URLSessionStubResponses.response(url: url!)!
+)
+
+let expect = XCTestExpectation()
+session.dataTask(with: request) { (data, response, error) in
+    XCTAssertEqual("MyData", String(data: data!, encoding: .utf8))
+    XCTAssertNil(error)
+    XCTAssertEqual(200, (response as? HTTPURLResponse)?.statusCode)
+    expect.fulfill()
+}.resume()
+wait(for: [expect], timeout: 1.0)
+```

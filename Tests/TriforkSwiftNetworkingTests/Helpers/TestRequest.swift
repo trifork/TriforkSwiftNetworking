@@ -1,8 +1,8 @@
 import Foundation
 import TriforkSwiftNetworking
 
-struct TestRequst: HTTPRequest {
-    typealias ResponseType = TestResonse
+struct TestRequest: HTTPRequest {
+    typealias ResponseType = TestResponse
 
     var baseUrl: String
     var pathComponents: [String]
@@ -13,7 +13,7 @@ struct TestRequst: HTTPRequest {
     var cachePolicy: URLRequest.CachePolicy
 }
 
-struct TestResonse: Response {
+struct TestResponse: Response {
     typealias OutputType = Example
 
     init(input: Data, response: HTTPURLResponse?) throws {
